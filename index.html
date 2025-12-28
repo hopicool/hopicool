@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineMods - Бесплатные моды для Minecraft</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Minecraftia&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #795548;
+            --dark: #1A1A1A;
+            --light: #F5F5F5;
+            --accent: #FF9800;
+            --block: #8BC34A;
+            --dirt: #8D6E63;
+            --stone: #9E9E9E;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background-color: #121212;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(76, 175, 80, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(121, 85, 72, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+        }
+
+        .minecraft-font {
+            font-family: 'Minecraftia', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--dark);
+            border-bottom: 4px solid var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(121, 85, 72, 0.2) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        /* Mods Section */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .mod-card {
+            background-color: var(--dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mod-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mod-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .mod-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .mod-content {
+            padding: 20px;
+        }
+
+        .mod-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .mod-description {
+            color: #b0b0b0;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .mod-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mod-author {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .mod-author i {
+            margin-right: 5px;
+            color: var(--accent);
+        }
+
+        .mod-download {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .mod-download:hover {
+            background-color: #e68900;
+        }
+
+        /* Categories Section */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .category-card {
+            background-color: var(--dark);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            border-top: 4px solid var(--primary);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Minecraft blocks decoration */
+        .block-decoration {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .grass-block {
+            background-color: var(--primary);
+            top: 20%;
+            left: 5%;
+            border-radius: 4px;
+        }
+
+        .dirt-block {
+            background-color: var(--dirt);
+            top: 60%;
+            right: 10%;
+            border-radius: 4px;
+        }
+
+        .stone-block {
+            background-color: var(--stone);
+            bottom: 30%;
+            left: 15%;
+            border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .mods-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .stats {
+                gap: 30px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Декоративные блоки Minecraft -->
+    <div class="block-decoration grass-block"></div>
+    <div class="block-decoration dirt-block"></div>
+    <div class="block-decoration stone-block"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-cube logo-icon"></i>
+                    <h1 class="logo-text minecraft-font">Mine<span>Mods</span></h1>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Главная</a></li>
+                        <li><a href="#mods"><i class="fas fa-box-open"></i> Моды</a></li>
+                        <li><a href="#categories"><i class="fas fa-th-large"></i> Категории</a></li>
+                        <li><a href="#"><i class="fas fa-newspaper"></i> Новости</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Помощь</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-primary"><i class="fas fa-user"></i> Войти</button>
+                    <button class="btn btn-secondary">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="minecraft-font">Бесплатные моды для Minecraft</h1>
+                <p>Крупнейшая коллекция бесплатных модов для Minecraft. Улучшайте свой игровой опыт с тысячами модов, созданных сообществом. Все моды проверены на безопасность и совместимость.</p>
+                <button class="btn btn-primary" style="padding: 15px 30px; font-size: 1.2rem;">
+                    <i class="fas fa-download"></i> Смотреть все моды
+                </button>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1,257</span>
+                        <span class="stat-label">Бесплатных модов</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">48,921</span>
+                        <span class="stat-label">Загрузок за месяц</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">324</span>
+                        <span class="stat-label">Активных авторов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mods Section -->
+    <div class="container">
+        <h2 id="mods" class="section-title minecraft-font">Популярные моды</h2>
+        
+        <div class="mods-grid">
+            <!-- Мод 1 -->
+            <div class="mod-card">
+                <div class="mod-image" style="background-image: url('https://images.unsplash.com/photo-1601042879364-f3947d1f9fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                    <span class="mod-category">Технологии</span>
+                </div>
+                <div class="mod-content">
+                    <h3 class="mod-title">Industrial Craft 2</h3>
+                    <p class="mod-description">Добавляет в игру электричество, новые машины и механизмы для автоматизации процессов.</p>
+                    <div class="mod-footer">
+                        <div class="mod-author">
+                            <i class="fas fa-user"></i> Player_Pro
+                        </div>
+                        <a href="#" class="mod-download">
+                            <i class="fas fa-download"></i> Скачать
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Мод 2 -->
+            <div class="mod-card">
+                <div class="mod-image" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                    <span class="mod-category">Магия</span>
+                </div>
+                <div class="mod-content">
+                    <h3 class="mod-title">Thaumcraft 6</h3>
+                    <p class="mod-description">Система магии, основанная на исследовании и использовании магической энергии.</p>
+                    <div class="mod-footer">
+                        <div class="mod-author">
+                            <i class="fas fa-user"></i> MagicMaster
+                        </div>
+                        <a href="#" class="mod-download">
+                            <i class="fas fa-download"></i> Скачать
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Мод 3 -->
+            <div class="mod-card">
+                <div class="mod-image" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                    <span class="mod-category">Приключения</span>
+                </div>
+                <div class="mod-content">
+                    <h3 class="mod-title">Twilight Forest</h3>
+                    <p class="mod-description">Добавляет новый измерение с уникальными биомами, существами и подземельями.</p>
+                    <div class="mod-footer">
+                        <div class="mod-author">
+                            <i class="fas fa-user"></i> AdventureTeam
+                        </div>
+                        <a href="#" class="mod-download">
+                            <i class="fas fa-download"></i> Скачать
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Мод 4 -->
+            <div class="mod-card">
+                <div class="mod-image" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                    <span class="mod-category">Оптимизация</span>
+                </div>
+                <div class="mod-content">
+                    <h3 class="mod-title">OptiFine</h3>
+                    <p class="mod-description">Улучшает производительность игры, добавляет поддержку HD текстур и шейдеров.</p>
+                    <div class="mod-footer">
+                        <div class="mod-author">
+                            <i class="fas fa-user"></i> OptiDev
+                        </div>
+                        <a href="#" class="mod-download">
+                            <i class="fas fa-download"></i> Скачать
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categories Section -->
+        <h2 id="categories" class="section-title minecraft-font">Категории модов</h2>
+        
+        <div class="categories">
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <h3 class="category-title">Технологии</h3>
+                <p class="category-count">245 модов</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-hat-wizard"></i>
+                </div>
+                <h3 class="category-title">Магия</h3>
+                <p class="category-count">187 модов</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-hiking"></i>
+                </div>
+                <h3 class="category-title">Приключения</h3>
+                <p class="category-count">156 модов</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="category-title">Инструменты</h3>
+                <p class="category-count">203 мода</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <h3 class="category-title">Мобы</h3>
+                <p class="category-count">312 модов</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="minecraft-font">MineMods</h3>
+                    <p>Крупнейший архив бесплатных модов для Minecraft. Все моды проверены на безопасность и не содержат вирусов.</p>
+                    <p>Наш проект существует благодаря поддержке сообщества.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Навигация</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#mods">Все моды</a></li>
+                        <li><a href="#categories">Категории</a></li>
+                        <li><a href="#">Новые моды</a></li>
+                        <li><a href="#">Популярные моды</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Как установить моды</a></li>
+                        <li><a href="#">Частые вопросы</a></li>
+                        <li><a href="#">Правила сайта</a></li>
+                        <li><a href="#">Для авторов</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Сообщество</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                        <li><a href="#"><i class="fab fa-vk"></i> ВКонтакте</a></li>
+                        <li><a href="#"><i class="fab fa-telegram"></i> Telegram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>MineMods &copy; 2023. Все права защищены. Все моды распространяются бесплатно.</p>
+                <p>Minecraft является товарным знаком Mojang AB. Наш проект не аффилирован с Mojang/Microsoft.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Анимация счетчиков в hero section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация счетчиков
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current);
+                }, 20);
+            });
+            
+            // Добавление эффекта при наведении на карточки модов
+            const modCards = document.querySelectorAll('.mod-card');
+            modCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Плавная прокрутка для навигации
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId.startsWith('#')) {
+                        const targetElement = document.querySelector(targetId);
+                        if(targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
